@@ -12,7 +12,7 @@
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{ asset('images/9440461.jpg') }}" class="rounded-circle mr-1">
                 </figure>
-                <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div>
+                {{-- <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div> --}}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="/profile" class="dropdown-item has-icon">

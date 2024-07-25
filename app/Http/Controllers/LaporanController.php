@@ -17,7 +17,12 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')->get();
+        $user = Auth::user();
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+            ->whereHas('userPelapor.toko', function ($query) use ($user) {
+                $query->where('tokos.id', $user->tokos_id);
+            })
+            ->get();
         $jenisAduan = JenisAduan::all();
         return view('pages.karyawan.pengaduan', compact('laporan', 'jenisAduan'));
     }
@@ -134,11 +139,29 @@ class LaporanController extends Controller
     public function getByJenis($jenis)
     {
         try {
-            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
-                ->whereHas('jenisAduan', function ($query) use ($jenis) {
-                    $query->where('jenis_aduans.id', $jenis);
-                })
-                ->get();
+            $laporan = null;
+
+            $user = Auth::user();
+
+            if ($user->role != 'pemeliharaan') {
+                $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                    ->whereHas('jenisAduan', function ($query) use ($jenis) {
+                        $query->where('jenis_aduans.id', $jenis);
+                    })
+                    ->whereHas('userPelapor.toko', function ($query) use ($user) {
+                        $query->where('tokos.id', $user->tokos_id);
+                    })
+                    ->get();
+            } else {
+                $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                    ->where('laporans.status', '<>', 'completed')
+                    ->whereHas('jenisAduan', function ($query) use ($jenis) {
+                        $query->where('jenis_aduans.id', $jenis);
+                    })
+                    ->get();
+            }
+
+
             return response()->json($laporan);
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage());
@@ -147,7 +170,21 @@ class LaporanController extends Controller
 
     public function getall()
     {
-        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')->get();
+        $laporan = null;
+
+        $user = Auth::user();
+
+        if ($user->role != 'pemeliharaan') {
+            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                ->whereHas('userPelapor.toko', function ($query) use ($user) {
+                    $query->where('tokos.id', $user->tokos_id);
+                })
+                ->get();
+        } else {
+            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                ->where('laporans.status', '<>', 'completed')
+                ->get();
+        }
         return response()->json($laporan);
     }
 }

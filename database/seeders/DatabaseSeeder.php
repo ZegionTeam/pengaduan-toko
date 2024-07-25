@@ -16,18 +16,24 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
 
-        User::factory()->create([
-            'nik' => '2013134820',
-            'name' => 'Aris Imam Tanggi',
-            'role' => 'pemeliharaan',
-            'tokos_id' => 1
-        ]);
+        // User::factory()->create([
+        //     'nik' => '2013134820',
+        //     'name' => 'Aris Imam Tanggi',
+        //     'role' => 'pemeliharaan',
+        //     'tokos_id' => 1
+        // ]);
 
+        // User::factory()->create([
+        //     'nik' => '2015031745',
+        //     'name' => 'Dani Rukmana',
+        //     'role' => 'karyawan',
+        //     'tokos_id' => 1
+        // ]);
         User::factory()->create([
-            'nik' => '2015031745',
+            'nik' => '2015031746',
             'name' => 'Dani Rukmana',
             'role' => 'karyawan',
-            'tokos_id' => 1
+            'tokos_id' => 2
         ]);
     }
 }

@@ -25,9 +25,6 @@ class AuthController extends Controller
 
             if (Auth::attempt(['nik' => $request->nik, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                // $toko = Toko::findOrFail(Auth::user()->toko);
-                // dd(Auth::user()->toko);
-                // session('tokos', $toko);
                 return redirect('/')->with(['success' => 'Berhasil Login']);
             }
 

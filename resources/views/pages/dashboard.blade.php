@@ -83,9 +83,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h5>Sistem Pengaduan Maintenance Toko Industri Manis</h5>
+                                <h5>Sistem Pengaduan Maintenance {{ Auth::user()->toko->nama }}</h5>
                                 <h4>PT INDOMARCO PRISMATAMA CABANG TANGERANG 1</h4>
-                                <h5>Alamat : Jl Manis Raya</h5>
+                                <h5>Alamat : {{ Auth::user()->toko->alamat }}</h5>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     @php
-                                        $chunks = $toko->chunk(3);
+                                        $chunks = $tokos->chunk(3);
                                     @endphp
 
                                     @foreach ($chunks as $chunk)
@@ -111,23 +111,34 @@
                                                             <div class="card-body">
                                                                 <h4>{{ $dataToko->nama }}</h4>
                                                                 <p>{{ $dataToko->alamat }}</p>
-                                                                <div class="row">
-                                                                    <div class="col-5">
-                                                                        <img class="img-fluid" alt="100%x280"
-                                                                            src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
-                                                                    </div>
-                                                                    <div class="col-7">
-                                                                        <h6>Rak Barang : {{ $dataToko->rak_barang }}</h6>
-                                                                        <h6>Lemari Pendingin :
-                                                                            {{ $dataToko->lemari_pendingin }}</h6>
-                                                                        <h6>Meja Kasir : {{ $dataToko->meja_kasir }}</h6>
-                                                                        <h6>Perbaikan AC : {{ $dataToko->perbaikan_ac }}
-                                                                        </h6>
-                                                                        <h6>Lampu Toko : {{ $dataToko->lampu_toko }}</h6>
-                                                                        <h6>Pintu Utama/Rolling Dor :
-                                                                            {{ $dataToko->pintu_utama }}</h6>
-                                                                    </div>
-                                                                </div>
+                                                                @foreach ($jenisLaporanPerToko as $jenisItem)
+                                                                    @if ($dataToko->nama == $jenisItem['nama_toko'])
+                                                                        <div class="row">
+                                                                            <div class="col-5">
+                                                                                <img class="img-fluid" alt="100%x280"
+                                                                                    src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <h6>Rak Barang :
+                                                                                    {{ $jenisItem['Rak Barang'] }}
+                                                                                </h6>
+                                                                                <h6>Lemari Pendingin :
+                                                                                    {{ $jenisItem['Lemari Pendingin'] }}
+                                                                                </h6>
+                                                                                <h6>Meja Kasir :
+                                                                                    {{ $jenisItem['Meja Kasir'] }}</h6>
+                                                                                <h6>Perbaikan AC :
+                                                                                    {{ $jenisItem['Perbaikan AC'] }}
+                                                                                </h6>
+                                                                                <h6>Lampu Toko :
+                                                                                    {{ $jenisItem['Lampu Toko'] }}</h6>
+                                                                                <h6>Pintu Utama/Rolling Dor :
+                                                                                    {{ $jenisItem['Pintu Utama/Loring Dor'] }}
+                                                                                </h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                     </div>
@@ -135,7 +146,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-
                                 </div>
                             </div>
                         </div>
@@ -166,30 +176,42 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <h4>{{ $dataToko->nama }}</h4>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <h6>Open :</h6>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    {{ $dataToko->open }}
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <h6>Pending :</h6>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    {{ $dataToko->pending }}
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <h6>Inprogress :</h6>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    {{ $dataToko->inprogress }}
-                                                                </div>
-                                                            </div>
+                                                            @foreach ($statusLaporanPerToko as $item)
+                                                                @if ($item->nama_toko == $dataToko->nama)
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <h6>Open :</h6>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            {{ $item->open }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <h6>Pending :</h6>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            {{ $item->pending }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <h6>Inprogress :</h6>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            {{ $item->inprogress }}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <h6>Completed :</h6>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            {{ $item->complete }}
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,234 +219,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                {{-- <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <div class="row">
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Industri Manis 1</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Jatake 2</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Pasar Kemis 3</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Industri Manis 4</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Industri Manis 5</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Industri Manis 6</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4>Toko Industri Manis 7</h4>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Open :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Pending :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h6>Inprogress :</h6>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                6
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -20,24 +20,27 @@
                         </div>
                         <div class="card-body">
                             <!-- Create/Edit Toko Form -->
-                            <form action="{{ route('toko.store') }}" method="POST">
+                            <form action="{{ route('toko.update', $dataToko->id) }}" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <div class="mb-3">
                                     <label for="namatoko" class="form-label">Nama Toko</label>
                                     <input type="text" class="form-control" id="namatoko" name="nama"
-                                        placeholder="Masukkan Nama Toko Anda" required>
+                                        placeholder="Masukkan Nama Toko Anda" required value="{{ $dataToko->nama }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="alamattoko" class="form-label">Alamat Toko</label>
                                     <input type="text" class="form-control" id="alamattoko" name="alamat"
-                                        placeholder="Masukkan Alamat Toko Anda" required>
+                                        placeholder="Masukkan Alamat Toko Anda" required value="{{ $dataToko->alamat }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="provinsi" class="form-label">Provinsi</label>
                                     <select class="form-control" name="province_id" id="provinsi">
                                         <option selected disabled>Pilih Provinsi</option>
-                                        @foreach ($provinces as $province)
-                                            <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                        @foreach ($province as $p)
+                                            <option value="{{ $p->id }}"
+                                                {{ $p->id == $dataToko->village->district->regency->province_id ? 'selected' : '' }}>
+                                                {{ $p->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -45,18 +48,33 @@
                                     <label for="regency" class="form-label">Regency</label>
                                     <select class="form-control" name="regency_id" id="regency">
                                         <option selected disabled>Pilih Regency</option>
+                                        @foreach ($regency as $r)
+                                            <option value="{{ $r->id }}"
+                                                {{ $r->id == $dataToko->village->district->regency_id ? 'selected' : '' }}>
+                                                {{ $r->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="district" class="form-label">District</label>
                                     <select class="form-control" name="district_id" id="district">
                                         <option selected disabled>Pilih District</option>
+                                        @foreach ($district as $d)
+                                            <option value="{{ $d->id }}"
+                                                {{ $d->id == $dataToko->village->district_id ? 'selected' : '' }}>
+                                                {{ $d->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="village" class="form-label">Village</label>
                                     <select class="form-control" name="village_id" id="village" required>
                                         <option selected disabled>Pilih Village</option>
+                                        @foreach ($villages as $v)
+                                            <option value="{{ $v->id }}"
+                                                {{ $v->id == $dataToko->villages_id ? 'selected' : '' }}>
+                                                {{ $v->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <button class="btn btn-primary" type="submit">Simpan</button>
@@ -74,7 +92,16 @@
     <script>
         $(document).ready(function() {
             $('#provinsi').on('change', function() {
+                // reset all option below province
+                var regency = $('#regency').find('option:first').clone();
+                $('#regency').empty().append(regency);
+                var district = $('#district').find('option:first').clone();
+                $('#district').empty().append(district);
+                var village = $('#village').find('option:first').clone();
+                $('#village').empty().append(village);
+
                 var id = this.value
+                console.log(id);
                 $.get('/get-regencies/' + id, function(data) {
                     data.forEach(element => {
                         $('#regency').append('<option value="' + element.id + '">' +
@@ -84,6 +111,10 @@
             });
 
             $('#regency').on('change', function() {
+                var district = $('#district').find('option:first').clone();
+                $('#district').empty().append(district);
+                var village = $('#village').find('option:first').clone();
+                $('#village').empty().append(village);
                 var id = this.value
                 $.get('/get-districts/' + id, function(data) {
                     data.forEach(element => {
@@ -94,6 +125,8 @@
             });
 
             $('#district').on('change', function() {
+                var village = $('#village').find('option:first').clone();
+                $('#village').empty().append(village);
                 var id = this.value
                 $.get('/get-villages/' + id, function(data) {
                     data.forEach(element => {

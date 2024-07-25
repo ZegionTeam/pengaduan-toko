@@ -163,5 +163,9 @@
     <!-- Page Specific JS File -->
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
-    <script src="{{ asset('js/page/index-0.js') }}"></script>
+    {{-- <script src="{{ asset('js/page/index-0.js') }}"></script> --}}
+
+    <script>
+        // /data-pengaduan
+    </script>
 @endpush

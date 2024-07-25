@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <h4>Data Toko</h4>
                             <div class="card-header-form">
-                                <a href="/tambahdatatoko" class="btn btn-primary">Tambah
+                                <a href="{{ route('toko.create') }}" class="btn btn-primary">Tambah
                                     Toko</a>
                             </div>
                         </div>
@@ -40,24 +40,24 @@
                                                 #
                                             </th>
                                             <th>Nama</th>
-                                            <th>NIK</th>
-                                            <th>Role</th>
-                                            <th>Toko</th>
+                                            <th>Alamat</th>
+                                            <th>Kabupaten / Kota</th>
+                                            <th>Provinsi</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
-                                        @foreach ($users as $index => $item)
+                                    <tbody>
+                                        @foreach ($toko as $index => $item)
                                             <tr>
                                                 <td>
                                                     {{ $index + 1 }}
                                                 </td>
-                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->nama }}</td>
                                                 <td>
-                                                    {{ $item->nik }}
+                                                    {{ $item->alamat }}
                                                 </td>
-                                                <td>{{ $item->role }}</td>
-                                                <td>{{ $item->toko->nama }}</td>
+                                                <td>{{ $item->village->district->regency->name }}</td>
+                                                <td>{{ $item->village->district->regency->province->name }}</td>
 
                                                 <td><button class="btn btn-primary dropdown-toggle" type="button"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -65,15 +65,16 @@
                                                         Detail
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item has-icon edit-user"
-                                                            data-id="{{ $item->id }}"><i
+                                                        <a href="{{ route('toko.edit', $item->id) }}"
+                                                            class="dropdown-item has-icon edit-user"><i
                                                                 class="fa-regular fa-pen-to-square"></i>Edit</a>
-                                                        <form action="{{ route('users.destroy', $item->id) }}"
-                                                            method="POST" id="hapus-user-{{ $item->id }}">
+                                                        <form action="{{ route('toko.destroy', $item->id) }}"
+                                                            method="POST" id="hapus-toko-{{ $item->id }}">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <a
-                                                                class="dropdown-item has-icon"onclick="document.getElementById('hapus-user-{{ $item->id }}').submit(); return false;"><i
+                                                            <a class="dropdown-item has-icon"onclick="
+                                                                                        document.getElementById('hapus-toko-{{ $item->id }}').submit();
+                                                                                        return false;"><i
                                                                     class="fa-solid fa-trash"></i>Hapus</a>
 
                                                         </form>
@@ -81,7 +82,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -89,38 +90,6 @@
                 </div>
             </div>
         </section>
-        <!-- modal edit data -->
-        <div class="modal fade" id="editUser" aria-hidden="true" aria-labelledby="editUser" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fs-5" id="exampleModalToggleLabel">Edit Data Toko</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" id="form-edit-user">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="namaUser" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="namaUser" name="name"
-                                    placeholder="Masukkan Pengaduan Anda" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="roleUser" class="form-label">Role</label>
-                                <select class="form-control" name="role" id="roleUser">
-                                    <option value="karyawan">Karyawan</option>
-                                    <option value="pemeliharaan">Pemeliharaan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Ubah</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
     </div>
 @endsection

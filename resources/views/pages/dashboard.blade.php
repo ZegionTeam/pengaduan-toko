@@ -109,7 +109,17 @@
                                                     <div class="col-md-4 mb-3">
                                                         <div class="card">
                                                             <div class="card-body">
-                                                                <h4>{{ $dataToko->nama }}</h4>
+                                                                @php
+                                                                    $limitedWords = implode(
+                                                                        ' ',
+                                                                        array_slice(
+                                                                            explode(' ', $dataToko->nama),
+                                                                            0,
+                                                                            2,
+                                                                        ),
+                                                                    );
+                                                                @endphp
+                                                                <h4>{{ $limitedWords }}</h4>
                                                                 <p>{{ $dataToko->alamat }}</p>
                                                                 @foreach ($jenisLaporanPerToko as $jenisItem)
                                                                     @if ($dataToko->nama == $jenisItem['nama_toko'])
@@ -168,14 +178,21 @@
                     <div class="row">
                         <div class="col-12">
                             <div id="carouselprosespengaduan" class="carousel slide" data-ride="carousel">
-                                @foreach ($chunks as $chunk)
+
+                                @foreach ($chunks as $chink)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                                         <div class="row">
-                                            @foreach ($chunk as $dataToko)
+                                            @foreach ($chink as $dataToko)
                                                 <div class="col-md-4 mb-3">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4>{{ $dataToko->nama }}</h4>
+                                                            @php
+                                                                $limitedWords = implode(
+                                                                    ' ',
+                                                                    array_slice(explode(' ', $dataToko->nama), 0, 2),
+                                                                );
+                                                            @endphp
+                                                            <h4>{{ $limitedWords }}</h4>
                                                             @foreach ($statusLaporanPerToko as $item)
                                                                 @if ($item->nama_toko == $dataToko->nama)
                                                                     <div class="row">

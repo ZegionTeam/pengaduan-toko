@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Toko;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -66,8 +67,13 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return response()->json($user);
+        $user = User::with('toko')->where('id',  $id)->first();
+        $toko = Toko::all();
+        $data = [
+            'user' => $user,
+            'toko' => $toko
+        ];
+        return response()->json($data);
     }
 
     /**

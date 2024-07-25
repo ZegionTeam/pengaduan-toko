@@ -44,7 +44,7 @@
                             <a class="nav-link" href="/users">Data User</a>
                         </li>
                         <li class=''>
-                            <a class="nav-link" href="/datatoko">Data Toko</a>
+                            <a class="nav-link" href="/toko">Data Toko</a>
                         </li>
                     </ul>
                 </li>

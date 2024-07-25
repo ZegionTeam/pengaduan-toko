@@ -24,38 +24,6 @@ class DataPengaduan extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Laporan $laporan)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
@@ -92,11 +60,32 @@ class DataPengaduan extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Laporan $laporan)
+    public function getJenis($jenis)
     {
-        //
+        try {
+            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                ->whereHas('jenisAduan', function ($query) use ($jenis) {
+                    $query->where('jenis_aduans.id', $jenis);
+                })
+                ->get();
+            return response()->json($laporan);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
+    public function getlapAll()
+    {
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')->get();
+        return response()->json($laporan);
+    }
+
+    public function show($id)
+    {
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+            ->where('id', $id)
+            ->first();
+
+        return response()->json($laporan);
     }
 }

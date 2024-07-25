@@ -109,6 +109,11 @@
                                     <option value="pemeliharaan">Pemeliharaan</option>
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="tokoUser" class="form-label">Toko</label>
+                                <select class="form-control" name="toko" id="tokoUser">
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Ubah</button>

@@ -139,29 +139,15 @@ class LaporanController extends Controller
     public function getByJenis($jenis)
     {
         try {
-            $laporan = null;
-
             $user = Auth::user();
-
-            if ($user->role != 'pemeliharaan') {
-                $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
-                    ->whereHas('jenisAduan', function ($query) use ($jenis) {
-                        $query->where('jenis_aduans.id', $jenis);
-                    })
-                    ->whereHas('userPelapor.toko', function ($query) use ($user) {
-                        $query->where('tokos.id', $user->tokos_id);
-                    })
-                    ->get();
-            } else {
-                $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
-                    ->where('laporans.status', '<>', 'completed')
-                    ->whereHas('jenisAduan', function ($query) use ($jenis) {
-                        $query->where('jenis_aduans.id', $jenis);
-                    })
-                    ->get();
-            }
-
-
+            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+                ->whereHas('jenisAduan', function ($query) use ($jenis) {
+                    $query->where('jenis_aduans.id', $jenis);
+                })
+                ->whereHas('userPelapor.toko', function ($query) use ($user) {
+                    $query->where('tokos.id', $user->tokos_id);
+                })
+                ->get();
             return response()->json($laporan);
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage());
@@ -170,21 +156,13 @@ class LaporanController extends Controller
 
     public function getall()
     {
-        $laporan = null;
 
         $user = Auth::user();
-
-        if ($user->role != 'pemeliharaan') {
-            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
-                ->whereHas('userPelapor.toko', function ($query) use ($user) {
-                    $query->where('tokos.id', $user->tokos_id);
-                })
-                ->get();
-        } else {
-            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
-                ->where('laporans.status', '<>', 'completed')
-                ->get();
-        }
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
+            ->whereHas('userPelapor.toko', function ($query) use ($user) {
+                $query->where('tokos.id', $user->tokos_id);
+            })
+            ->get();
         return response()->json($laporan);
     }
 }

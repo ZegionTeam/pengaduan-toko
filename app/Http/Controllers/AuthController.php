@@ -41,4 +41,11 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login')->with(['success' => 'Berhasil Logout']);
     }
+
+
+    public function register()
+    {
+        $toko = Toko::all();
+        return view('pages.auth.authregister', compact('toko'));
+    }
 }

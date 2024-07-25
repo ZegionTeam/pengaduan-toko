@@ -39,6 +39,7 @@
                                             <th>#</th>
                                             <th>Pengaduan</th>
                                             <th>Created At</th>
+                                            <th>Toko</th>
                                             <th>Dikomplain oleh</th>
                                             <th>Dikerjakan oleh</th>
                                             <th>Status</th>
@@ -51,6 +52,7 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->laporan }}</td>
                                                 <td>{{ $item->created_at }}</td>
+                                                <td>{{ $item->userPelapor->toko->nama }}</td>
                                                 <td>{{ $item->userPelapor->name }}</td>
                                                 <td>
                                                     @if ($item->userPekerja)

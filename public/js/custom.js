@@ -93,6 +93,7 @@ $(document).ready(function () {
             newRow.append('<td>' + (index + 1) + '</td>');
             newRow.append('<td>' + element.laporan + '</td>');
             newRow.append('<td>' + formatTime(element.created_at) + '</td>');
+            newRow.append('<td>' + element.user_pelapor.toko.nama + '</td>');
             newRow.append('<td>' + element.user_pelapor.name + '</td>');
             newRow.append('<td>' + pekerja + '</td>');
             newRow.append('<td>' + statusBadge + '</td>');
@@ -106,7 +107,7 @@ $(document).ready(function () {
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item has-icon edit-btn"
-                            data-target="#editdata" data-toggle="modal" data-id="`+ element.id + `">
+                            data-target="#modal-edit-pengaduan" data-toggle="modal" data-id="`+ element.id + `">
                             <i class="fa-regular fa-pen-to-square"></i> Follow Up Pengaduan
                         </a>
                     </div>

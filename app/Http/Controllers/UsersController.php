@@ -14,7 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name', 'asc')->get();
+        $users = User::with('toko')->orderBy('name', 'asc')->get();
+        // dd($users);
         return view('pages.pemeliharaan.data-user', compact('users'));
     }
 
@@ -35,7 +36,8 @@ class UsersController extends Controller
             $validator = Validator::make($request->all(), [
                 'nik' => 'required|unique:users,nik',
                 'name' => 'required|string',
-                'password' => 'required|min:8|confirmed'
+                'password' => 'required|min:8|confirmed',
+                'toko' => 'required|exists:tokos,id'
             ], [
                 'nik.unique' => 'NIK Sudah Terdaftar',
                 'password.confirmed' => 'Password Tidak Sama'
@@ -47,7 +49,8 @@ class UsersController extends Controller
             $user = User::create([
                 'nik' => $request->nik,
                 'name' => $request->name,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'tokos_id' => $request->toko
             ]);
 
             if ($user) {
@@ -83,7 +86,8 @@ class UsersController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
-                'role' => 'required'
+                'role' => 'required',
+                'toko' => 'required|exists:tokos,id'
             ]);
 
             if ($validator->fails()) {
@@ -95,7 +99,8 @@ class UsersController extends Controller
             if ($user) {
                 $user->update([
                     'name' => $request->name,
-                    'role' => $request->role
+                    'role' => $request->role,
+                    'tokos_id' => $request->toko
                 ]);
 
                 return redirect()->back()->with(['success' => 'Berhasil update data']);

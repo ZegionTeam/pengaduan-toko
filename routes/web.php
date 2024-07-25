@@ -27,17 +27,16 @@ Route::get('logout', [AuthController::class, 'logout']);
 
 Route::middleware(LoginCheck::class)->group(function () {
     Route::get('/', [MainController::class, 'index']);
+    Route::get('/getbyjenis/{id}', [LaporanController::class, 'getByJenis']);
+    Route::get('/all-laporan', [LaporanController::class, 'getall']);
 
-    Route::middleware('roles:karyawan,pemeliharaan')->group(function () {
+    Route::middleware('roles:karyawan')->group(function () {
         Route::resource('pengaduan', LaporanController::class);
-        Route::get('/getbyjenis/{id}', [LaporanController::class, 'getByJenis']);
-        Route::get('/all-laporan', [LaporanController::class, 'getall']);
-
         Route::get('/followupkaryawan/{id}', [FollowUpController::class, 'index']);
         Route::put('/laporan-selesai/{id}', [FollowUpController::class, 'tutupLaporan']);
     });
 
-    Route::middleware('roles:pemeliharaan,karyawan')->group(function () {
+    Route::middleware('roles:pemeliharaan')->group(function () {
         Route::resource('data-pengaduan', DataPengaduan::class);
         Route::resource('users', UsersController::class);
     });

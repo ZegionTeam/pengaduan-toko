@@ -38,7 +38,7 @@
                                             <th>Nama</th>
                                             <th>NIK</th>
                                             <th>Role</th>
-                                            <th>avatar</th>
+                                            <th>Toko</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -53,11 +53,7 @@
                                                     {{ $item->nik }}
                                                 </td>
                                                 <td>{{ $item->role }}</td>
-                                                <td>
-                                                    <img alt="image" src="{{ asset('images/9440461.jpg') }}"
-                                                        class="rounded-circle" width="35" data-toggle="tooltip"
-                                                        title="Wildan Ahdian">
-                                                </td>
+                                                <td>{{ $item->toko->nama }}</td>
 
                                                 <td><button class="btn btn-primary dropdown-toggle" type="button"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

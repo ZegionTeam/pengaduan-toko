@@ -17,7 +17,7 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $laporan = Laporan::with('userPelapor', 'userPekerja', 'jenisAduan')->get();
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')->get();
         $jenisAduan = JenisAduan::all();
         return view('pages.karyawan.pengaduan', compact('laporan', 'jenisAduan'));
     }
@@ -71,7 +71,7 @@ class LaporanController extends Controller
      */
     public function show($id)
     {
-        $laporan = Laporan::with('userPelapor', 'userPekerja', 'jenisAduan')
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
             ->where('id', $id)
             ->first();
 
@@ -134,7 +134,7 @@ class LaporanController extends Controller
     public function getByJenis($jenis)
     {
         try {
-            $laporan = Laporan::with('userPelapor', 'userPekerja', 'jenisAduan')
+            $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
                 ->whereHas('jenisAduan', function ($query) use ($jenis) {
                     $query->where('jenis_aduans.id', $jenis);
                 })
@@ -147,7 +147,7 @@ class LaporanController extends Controller
 
     public function getall()
     {
-        $laporan = Laporan::with('userPelapor', 'userPekerja', 'jenisAduan')->get();
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')->get();
         return response()->json($laporan);
     }
 }

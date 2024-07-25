@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->enum('role', ['karyawan', 'pemeliharaan'])->default('karyawan');
-            $table->foreignId('tokos_id')->constrained('tokos')->onDelete('cascade');
+            $table->foreignId('tokos_id')->nullable()->constrained('tokos')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

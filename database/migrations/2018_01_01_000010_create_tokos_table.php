@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->char('villages_id')->index();
             $table->foreign('villages_id')->references('id')->on('villages');
+            $table->text('alamat');
             $table->timestamps();
         });
     }

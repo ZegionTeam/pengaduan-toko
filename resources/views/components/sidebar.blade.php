@@ -1,8 +1,13 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="/">MANAJEMEN PENGADUAN </a><p>
-            TOKO INDUSTRI MANIS
+            <a href="/">MANAJEMEN PENGADUAN </a>
+            <p>
+                @if (Auth::user()->role == 'karyawan')
+                    {{ Auth::user()->toko->nama }}
+                @else
+                    PT INDOMARCO PRISMATAMA CABANG TANGERANG 1
+                @endif
             </p>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">

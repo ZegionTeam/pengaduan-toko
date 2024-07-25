@@ -16,7 +16,7 @@ class DataPengaduan extends Controller
      */
     public function index()
     {
-        $laporan = Laporan::with('userPelapor', 'userPekerja', 'jenisAduan')
+        $laporan = Laporan::with('userPelapor.toko', 'userPekerja', 'jenisAduan')
             ->where('laporans.status', '<>', 'completed')
             ->get();
         $jenisAduan = JenisAduan::all();

@@ -32,7 +32,6 @@
                                 <div class="card-header">
                                     <h4>Lihat Aduan</h4>
                                     <div class="card-header-form">
-                                        {{-- <button class="btn btn-primary" type="button">Tambah Pengaduan</button> --}}
                                         <a href="{{ route('pengaduan.create') }}" class="btn btn-primary">Tambah
                                             Pengaduan</a>
                                     </div>

@@ -28,8 +28,8 @@ class Laporan extends Model
         return $this->belongsTo(User::class, 'pekerja');
     }
 
-    public function jenisAduan(): HasOne
+    public function jenisAduan(): BelongsTo
     {
-        return $this->hasOne(JenisAduan::class, 'id', 'jenis_aduans_id');
+        return $this->belongsTo(JenisAduan::class, 'jenis_aduans_id');
     }
 }

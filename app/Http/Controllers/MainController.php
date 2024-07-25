@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\Toko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +26,14 @@ class MainController extends Controller
             ];
         }
 
-        return view('pages.dashboard', compact('laporan'));
+        $toko = Toko::all();
+
+        // $laporan_toko = Laporan::with('userPelapor.toko', 'jenisAduan')
+        //     ->select('jenis_aduans_id', DB::raw('count(*) as total'))
+        //     ->groupBy('jenis_aduans_id')
+        //     ->get();
+        // dd($laporan_toko);
+
+        return view('pages.dashboard', compact('laporan', 'toko'));
     }
 }

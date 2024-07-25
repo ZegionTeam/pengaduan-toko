@@ -18,7 +18,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" href="/"><i class="fas fa-fire"></i> <span>Dashboard</span></a>
             </li>
-            {{-- @if (Auth::user()->role == 'karyawan') --}}
+            @if (Auth::user()->role == 'karyawan')
                 <li class="nav-item">
                     <a href="#" class="nav-link has-dropdown"><i
                             class="fas fa-fire"></i><span>Pengaduan</span></a>
@@ -31,7 +31,7 @@
                         </li>
                     </ul>
                 </li>
-            {{-- @elseif(Auth::user()->role == 'pemeliharaan') --}}
+            @elseif(Auth::user()->role == 'pemeliharaan')
                 <!-- sidebar admin -->
                 <li class="nav-item">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Master
@@ -45,7 +45,7 @@
                         </li>
                     </ul>
                 </li>
-            {{-- @endif --}}
+            @endif
             <li class="nav-item">
                 <a class="nav-link" href="/profile"><i class="fa-solid fa-user"></i> <span>Profile</span></a>
             </li>

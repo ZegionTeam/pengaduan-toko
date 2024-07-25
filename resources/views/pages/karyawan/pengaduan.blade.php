@@ -48,6 +48,7 @@
                                                     </th>
                                                     <th>Pengaduan</th>
                                                     <th>Created At</th>
+                                                    <th>Toko</th>
                                                     <th>Pelapor</th>
                                                     <th>Dikerjakan</th>
                                                     <th>Status</th>
